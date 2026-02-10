@@ -1,0 +1,119 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36" version="29.3.8">
+  <diagram name="Page-1" id="7uUVzSFEvmkmSphZGewz">
+    <mxGraphModel dx="1426" dy="912" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="mmFfuIL-NltCjrtu2PMb-3" parent="1" style="swimlane;startSize=0;" value="" vertex="1">
+          <mxGeometry height="560" width="720" x="40" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="mmFfuIL-NltCjrtu2PMb-6" parent="mmFfuIL-NltCjrtu2PMb-3" style="rounded=0;whiteSpace=wrap;html=1;" value="client" vertex="1">
+          <mxGeometry height="120" width="680" x="20" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="mmFfuIL-NltCjrtu2PMb-7" parent="mmFfuIL-NltCjrtu2PMb-3" style="rounded=0;whiteSpace=wrap;html=1;" value="server" vertex="1">
+          <mxGeometry height="120" width="680" x="20" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="mmFfuIL-NltCjrtu2PMb-8" edge="1" parent="mmFfuIL-NltCjrtu2PMb-3" style="endArrow=classic;html=1;rounded=0;exitX=0.088;exitY=1.008;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.09;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="599.9999999999999" y="140.00000000000003" as="sourcePoint" />
+            <mxPoint x="601.36" y="419.04" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mmFfuIL-NltCjrtu2PMb-9" connectable="0" parent="mmFfuIL-NltCjrtu2PMb-8" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="POST:&lt;div&gt;/reset&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.3549" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mmFfuIL-NltCjrtu2PMb-10" edge="1" parent="mmFfuIL-NltCjrtu2PMb-3" style="endArrow=classic;html=1;rounded=0;exitX=0.088;exitY=1.008;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.09;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="80" y="140" as="sourcePoint" />
+            <mxPoint x="81" y="419" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mmFfuIL-NltCjrtu2PMb-11" connectable="0" parent="mmFfuIL-NltCjrtu2PMb-10" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="GET:&lt;div&gt;initial load&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.3549" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mmFfuIL-NltCjrtu2PMb-12" edge="1" parent="mmFfuIL-NltCjrtu2PMb-3" style="endArrow=classic;html=1;rounded=0;exitX=0.088;exitY=1.008;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.09;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="320" y="140" as="sourcePoint" />
+            <mxPoint x="321" y="419" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mmFfuIL-NltCjrtu2PMb-13" connectable="0" parent="mmFfuIL-NltCjrtu2PMb-12" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="POST:&lt;div&gt;/chat,&lt;/div&gt;&lt;div&gt;{user-message}&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.3549" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mmFfuIL-NltCjrtu2PMb-14" edge="1" parent="mmFfuIL-NltCjrtu2PMb-3" source="mmFfuIL-NltCjrtu2PMb-7" style="endArrow=classic;html=1;rounded=0;exitX=0.149;exitY=-0.017;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.144;entryY=1.008;entryDx=0;entryDy=0;entryPerimeter=0;" target="mmFfuIL-NltCjrtu2PMb-6" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="480" y="450" as="sourcePoint" />
+            <mxPoint x="530" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mmFfuIL-NltCjrtu2PMb-16" connectable="0" parent="mmFfuIL-NltCjrtu2PMb-14" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="returns&lt;div&gt;HTML,&lt;div&gt;CSS,&lt;/div&gt;&lt;div&gt;JS,&lt;/div&gt;&lt;div&gt;initial&amp;nbsp;&lt;/div&gt;&lt;div&gt;empty chat&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.1403" y="-3" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mmFfuIL-NltCjrtu2PMb-17" edge="1" parent="mmFfuIL-NltCjrtu2PMb-3" style="endArrow=classic;html=1;rounded=0;exitX=0.149;exitY=-0.017;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.144;entryY=1.008;entryDx=0;entryDy=0;entryPerimeter=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="383" y="420" as="sourcePoint" />
+            <mxPoint x="380" y="143" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mmFfuIL-NltCjrtu2PMb-18" connectable="0" parent="mmFfuIL-NltCjrtu2PMb-17" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="returns&lt;div&gt;Claude&#39;s response&lt;/div&gt;&lt;div&gt;in json (not full chat)&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.1403" y="-3" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mmFfuIL-NltCjrtu2PMb-19" edge="1" parent="mmFfuIL-NltCjrtu2PMb-3" style="endArrow=classic;html=1;rounded=0;exitX=0.149;exitY=-0.017;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.144;entryY=1.008;entryDx=0;entryDy=0;entryPerimeter=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="663" y="417" as="sourcePoint" />
+            <mxPoint x="660" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mmFfuIL-NltCjrtu2PMb-20" connectable="0" parent="mmFfuIL-NltCjrtu2PMb-19" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="returns&lt;div&gt;200&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.1403" y="-3" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mmFfuIL-NltCjrtu2PMb-27" parent="mmFfuIL-NltCjrtu2PMb-3" style="rounded=0;whiteSpace=wrap;html=1;" value="local&lt;div&gt;chatlog&lt;/div&gt;" vertex="1">
+          <mxGeometry height="80" width="80" x="40" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="mmFfuIL-NltCjrtu2PMb-29" parent="mmFfuIL-NltCjrtu2PMb-3" style="rounded=0;whiteSpace=wrap;html=1;" value="local&lt;div&gt;chatlog&lt;/div&gt;" vertex="1">
+          <mxGeometry height="80" width="80" x="40" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="mmFfuIL-NltCjrtu2PMb-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Claude" vertex="1">
+          <mxGeometry height="80" width="720" x="40" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="mmFfuIL-NltCjrtu2PMb-5" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="My computer" vertex="1">
+          <mxGeometry height="30" width="120" x="40" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="mmFfuIL-NltCjrtu2PMb-21" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;exitX=0.088;exitY=1.008;exitDx=0;exitDy=0;exitPerimeter=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="360" y="580" as="sourcePoint" />
+            <mxPoint x="361" y="840" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mmFfuIL-NltCjrtu2PMb-22" connectable="0" parent="mmFfuIL-NltCjrtu2PMb-21" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Claude SDK:&lt;div&gt;post entire chat history&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.3549" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mmFfuIL-NltCjrtu2PMb-25" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;entryX=0.144;entryY=1.008;entryDx=0;entryDy=0;entryPerimeter=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="443" y="840" as="sourcePoint" />
+            <mxPoint x="440" y="580" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mmFfuIL-NltCjrtu2PMb-26" connectable="0" parent="mmFfuIL-NltCjrtu2PMb-25" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="returns&lt;div&gt;Claude response&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.1403" y="-3" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
