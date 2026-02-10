@@ -2,6 +2,18 @@ import "./App.css";
 import { useState } from "react";
 import Anthropic from "@anthropic-ai/sdk";
 import ReactMarkdown from "react-markdown"
+import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 
 const chatLog: Anthropic.MessageParam[] = []
 
@@ -48,17 +60,19 @@ function App() {
     <>
       <h1>bingobot</h1>
       <div>
-        <div className="text-window">
+        <ScrollArea className="text-window">
           {chatLog.map((message) => (
-            <ReactMarkdown>{message.content as string}</ReactMarkdown>
+            <Card className="text-bubble">
+              <ReactMarkdown>{message.content as string}</ReactMarkdown>
+            </Card>
           ))}
-        </div>
-        <textarea 
+        </ScrollArea>
+        <Textarea 
           value={input}
-          onChange={handleInputChange}>
-        </textarea>
-        <button onClick={handleClick}>Send</button>
-        <button onClick={handleReset}>Reset</button>
+          onChange={handleInputChange}
+        />
+        <Button onClick={handleClick}>Send</Button>
+        <Button onClick={handleReset}>Reset</Button>
       </div>
     </>
   )
