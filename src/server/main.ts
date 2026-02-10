@@ -7,7 +7,7 @@ const app = express();
 const client = new Anthropic();
 app.use(express.json())
 
-const chatLog: Anthropic.MessageParam[] = []
+let chatLog: Anthropic.MessageParam[] = []
 
 app.post("/chat", async (req, res) => {
   try {
@@ -38,16 +38,15 @@ app.post("/chat", async (req, res) => {
   }
 })
 
-/*
-app.post("/reset", (_, res) => {
+app.post("/reset", async (_, res) => {
   try {
-
+    chatLog = []
+    res.json({ success: true })
   } catch (err) {
     console.log(err)
     res.status(500).json({ error: "POST /reset endpoint broke" })
   }
 })
-*/
 
 ViteExpress.listen(app, 3000, () =>
   console.log("Server is listening on port 3000..."),
