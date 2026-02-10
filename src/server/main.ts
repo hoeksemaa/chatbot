@@ -1,32 +1,24 @@
 import express from "express";
 import ViteExpress from "vite-express";
-
 import 'dotenv/config'
+import Anthropic from "@anthropic-ai/sdk";
 
 const app = express();
+const client = new Anthropic();
 
 async function callAnthropic() {
-  const api_key = process.env['ANTHROPIC_API_KEY'] as string
-  const response = await fetch("https://api.anthropic.com/v1/messages", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': api_key,
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify({
-        "model": "claude-haiku-4-5-20251001",
-        "max_tokens": 1000,
-        "messages": [
-          {
-            "role": "user", 
-            "content": "hello! my name's john. how do i clean dishes better?"
-          }
-        ]
-      })
-    })
-    const data = await response.json()
-    console.log(data)
+  //const api_key = process.env['ANTHROPIC_API_KEY'] as string
+  const message = await client.messages.create({
+    model: "claude-opus-4-6",
+    max_tokens: 1024,
+    messages: [
+      {
+        role: "user",
+        content: "my name is john! how do i clean dishes better?"
+      }
+    ]
+  })
+  console.log(message.content)
 }
 
 app.get("/hello", (_, res) => {
