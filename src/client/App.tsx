@@ -33,6 +33,17 @@ function App() {
     console.log("CHATLOG: ", chatLog)
   }
 
+  async function handleReset() {
+    // send post request
+    const response = await fetch("http://localhost:3000/reset", {method: "POST"})
+    const data = await response.json()
+    console.log(data)
+
+    // empty chat log
+    setChatLog(prev => [])
+    setInput("")
+  }
+
   return (
     <>
       <h1>bingobot</h1>
@@ -47,6 +58,7 @@ function App() {
           onChange={handleInputChange}>
         </textarea>
         <button onClick={handleClick}>Send</button>
+        <button onClick={handleReset}>Reset</button>
       </div>
     </>
   )
