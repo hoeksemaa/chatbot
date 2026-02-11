@@ -17,9 +17,9 @@ let chatLog = new InMemoryStorage()
 
 app.post("/create", async (req, res) => {
   const conversation = chatLog.createConversation()
-  console.log("CONVERSATION: ", conversation)
   res.json(conversation)
 })
+
 
 //app.post("/message", async (req, res) => {})
 
