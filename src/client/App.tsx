@@ -15,8 +15,6 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-const chatLog: Anthropic.MessageParam[] = []
-
 function App() {
   const [input, setInput] = useState("")
   const [chatLog, setChatLog] = useState<Anthropic.MessageParam[]>([])
