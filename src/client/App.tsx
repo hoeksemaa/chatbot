@@ -16,24 +16,51 @@ import {
 } from "@/components/ui/card"
 import type { Role, ConversationId, Message, Conversation } from "../server/storage"
 
-type ChatID = ConversationId | null
-type Chat = Conversation | null
-
 function App() {
   const [input, setInput] = useState("")
-  const [chatID, setChatID] = useState<ChatID>(null)
-  const [chat, setChat] = useState<Chat>(null)
+  const [chat, setChat] = useState<Conversation | null>(null)
 
-  
   function handleInputChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
     setInput(event.target.value)
   }
 
+  async function createChat() {
+    const response = await fetch("http://localhost:3000/create", { method: "POST" })
+    const data = await response.json()
+
+    // update conversation ID
+    setChat({ id: data.id, messages: [] })
+    console.log("CHAT DATA:", data)
+  }
+
   /*
   async function handleClick(event: React.MouseEvent<HTMLButtonElement>) {
+    // collect and save user message
+    const userMessage: Message = { role: "user", content: input }
+    setChat(prev => prev.concat(userMessage))
+  } 
+  */
+
+  useEffect(() => {
+    createChat()
+  }, [])
+
+  /*
+  async function handleClick(event: React.MouseEvent<HTMLButtonElement>) {
+    // if no chatID
+
+
+    // if chatID
+    
+
+
+
     // isolate and save user message
-    const userMessage: Anthropic.MessageParam = { "role": "user", "content": input }
-    setChatLog(prev => prev.concat(userMessage))
+
+
+
+    const userMessage: Message = { "role": "user", "content": input }
+    setChat(prev => prev.concat(userMessage))
 
     // send post request
     const response = await fetch("http://localhost:3000/chat", {
@@ -44,7 +71,7 @@ function App() {
 
     // isolate and save claude response 
     const claudeResponse: Anthropic.MessageParam = await response.json()
-    setChatLog(prev => prev.concat(claudeResponse))
+    setChat(prev => prev.concat(claudeResponse))
     setInput("")
 
     console.log("CHATLOG: ", chatLog)
@@ -64,6 +91,16 @@ function App() {
   }
   */
 
+  /*
+  async function loadConversations() {
+    const response = await fetch("http://localhost:3000/chats")
+    const data = await response.json()
+    setChats
+  }
+  */
+
+  //useEffect(() => {}, [])
+
   return (
     <>
       <h1>bingobot</h1>
@@ -82,29 +119,6 @@ function App() {
       </div>
     </>
   )
-
-  /*
-  return (
-    <>
-      <h1>bingobot</h1>
-      <div>
-        <ScrollArea className="text-window">
-          {chat.map((message, index) => (
-            <Card key={index} className={`${message.role === "user" ? "user-bubble" : "assistant-bubble"}`}>
-              <ReactMarkdown>{message.content as string}</ReactMarkdown>
-            </Card>
-          ))}
-        </ScrollArea>
-        <Textarea 
-          value={input}
-          onChange={handleInputChange}
-        />
-        <Button onClick={handleClick}>Send</Button>
-        <Button onClick={handleReset}>Reset</Button>
-      </div>
-    </>
-  )
-  */
 }
 
 export default App;
