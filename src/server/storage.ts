@@ -20,13 +20,14 @@ export interface Storage {
     addMessageToConversation(id: ConversationId, message: Message): boolean
 }
 
-class InMemoryStorage implements Storage {
+export class InMemoryStorage implements Storage {
     conversations: Map<ConversationId, Conversation>
 
     constructor() {
         this.conversations = new Map()
     }
 
+    // saves new conversation and returns it
     createConversation(): Conversation {
         const id: ConversationId = uuid()
         const messages: Message[] = []
@@ -35,6 +36,7 @@ class InMemoryStorage implements Storage {
         return conversation
     }
 
+    // returns data
     getConversation(id: ConversationId): Conversation {
         const conversation = this.conversations.get(id)
         if (!conversation) {
@@ -43,11 +45,13 @@ class InMemoryStorage implements Storage {
         return conversation
     }
 
+    // returns data
     getConversations(): Conversation[] {
         const conversationList = Array.from(this.conversations.values())
         return conversationList
     }
 
+    // updates conversation, saves it, returns bool
     addMessageToConversation(id: ConversationId, message: Message): boolean {
         let conversation = this.conversations.get(id)
         if (!conversation) {

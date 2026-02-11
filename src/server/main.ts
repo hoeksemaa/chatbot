@@ -2,13 +2,22 @@ import express from "express";
 import ViteExpress from "vite-express";
 import 'dotenv/config'
 import Anthropic from "@anthropic-ai/sdk";
+import type { Role, ConversationId, Message, Conversation } from "./storage.ts"
+import { InMemoryStorage } from "./storage"
 
 const app = express();
 const client = new Anthropic();
 app.use(express.json())
 
-let chatLog: Anthropic.MessageParam[] = []
+let chatLog = new InMemoryStorage()
 
+app.post("/create", async (req, res) => {
+  const conversation = chatLog.createConversation()
+  console.log("CONVERSATION: ", conversation)
+  res.json(conversation)
+})
+
+/*
 app.post("/chat", async (req, res) => {
   try {
     // isolate and save the user input
@@ -38,6 +47,7 @@ app.post("/chat", async (req, res) => {
   }
 })
 
+/*
 app.post("/reset", async (_, res) => {
   try {
     chatLog = []
@@ -47,6 +57,7 @@ app.post("/reset", async (_, res) => {
     res.status(500).json({ error: "POST /reset endpoint broke" })
   }
 })
+*/
 
 ViteExpress.listen(app, 3000, () =>
   console.log("Server is listening on port 3000..."),

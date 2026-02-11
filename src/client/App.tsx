@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Anthropic from "@anthropic-ai/sdk";
 import ReactMarkdown from "react-markdown"
 import { Button } from "@/components/ui/button"
@@ -14,15 +14,22 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import type { Role, ConversationId, Message, Conversation } from "../server/storage"
+
+type ChatID = ConversationId | null
+type Chat = Conversation | null
 
 function App() {
   const [input, setInput] = useState("")
-  const [chatLog, setChatLog] = useState<Anthropic.MessageParam[]>([])
+  const [chatID, setChatID] = useState<ChatID>(null)
+  const [chat, setChat] = useState<Chat>(null)
 
+  
   function handleInputChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
     setInput(event.target.value)
   }
 
+  /*
   async function handleClick(event: React.MouseEvent<HTMLButtonElement>) {
     // isolate and save user message
     const userMessage: Anthropic.MessageParam = { "role": "user", "content": input }
@@ -42,7 +49,9 @@ function App() {
 
     console.log("CHATLOG: ", chatLog)
   }
+    */
 
+  /*
   async function handleReset() {
     // send post request
     const response = await fetch("http://localhost:3000/reset", {method: "POST"})
@@ -53,13 +62,34 @@ function App() {
     setChatLog(prev => [])
     setInput("")
   }
+  */
 
   return (
     <>
       <h1>bingobot</h1>
       <div>
         <ScrollArea className="text-window">
-          {chatLog.map((message, index) => (
+          {chat && chat.messages.map((message, index) => (
+            <Card key={index} className={`${message.role === "user" ? "user-bubble" : "assistant-bubble"}`}>
+              <ReactMarkdown>{message.content as string}</ReactMarkdown>
+            </Card>
+          ))}
+        </ScrollArea>
+        <Textarea 
+          value={input}
+          onChange={handleInputChange}
+        />
+      </div>
+    </>
+  )
+
+  /*
+  return (
+    <>
+      <h1>bingobot</h1>
+      <div>
+        <ScrollArea className="text-window">
+          {chat.map((message, index) => (
             <Card key={index} className={`${message.role === "user" ? "user-bubble" : "assistant-bubble"}`}>
               <ReactMarkdown>{message.content as string}</ReactMarkdown>
             </Card>
@@ -74,6 +104,7 @@ function App() {
       </div>
     </>
   )
+  */
 }
 
 export default App;

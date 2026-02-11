@@ -1,0 +1,122 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36" version="29.3.8">
+  <diagram name="Page-1" id="7uUVzSFEvmkmSphZGewz">
+    <mxGraphModel dx="1426" dy="2012" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="L_qc-8ZOa0mfK6d4Q4-V-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="600" width="560" x="40" y="-1000" as="geometry" />
+        </mxCell>
+        <mxCell id="L_qc-8ZOa0mfK6d4Q4-V-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Anthropic&lt;div&gt;Claude&lt;/div&gt;" vertex="1">
+          <mxGeometry height="280" width="80" x="720" y="-1000" as="geometry" />
+        </mxCell>
+        <mxCell id="L_qc-8ZOa0mfK6d4Q4-V-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Browser" vertex="1">
+          <mxGeometry height="560" width="120" x="60" y="-980" as="geometry" />
+        </mxCell>
+        <mxCell id="L_qc-8ZOa0mfK6d4Q4-V-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Vite Express&lt;div&gt;Server&lt;/div&gt;" vertex="1">
+          <mxGeometry height="560" width="120" x="460" y="-980" as="geometry" />
+        </mxCell>
+        <mxCell id="L_qc-8ZOa0mfK6d4Q4-V-5" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;exitX=1.025;exitY=0.075;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.008;entryY=0.08;entryDx=0;entryDy=0;entryPerimeter=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="182.04" y="-930" as="sourcePoint" />
+            <mxPoint x="460.00000000000006" y="-927.2" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L_qc-8ZOa0mfK6d4Q4-V-6" connectable="0" parent="L_qc-8ZOa0mfK6d4Q4-V-5" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="get chat:&lt;div&gt;GET&amp;nbsp;&lt;span style=&quot;background-color: light-dark(#ffffff, var(--ge-dark-color, #121212)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;/chat/id&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.0933" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L_qc-8ZOa0mfK6d4Q4-V-7" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;exitX=1.025;exitY=0.075;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.008;entryY=0.08;entryDx=0;entryDy=0;entryPerimeter=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="181.02" y="-670" as="sourcePoint" />
+            <mxPoint x="458.9800000000001" y="-667.2" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L_qc-8ZOa0mfK6d4Q4-V-8" connectable="0" parent="L_qc-8ZOa0mfK6d4Q4-V-7" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="send message:&lt;div&gt;POST&amp;nbsp;&lt;span style=&quot;background-color: light-dark(#ffffff, var(--ge-dark-color, #121212)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;/chat/id + message&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.0933" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L_qc-8ZOa0mfK6d4Q4-V-9" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;exitX=1.025;exitY=0.075;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.008;entryY=0.08;entryDx=0;entryDy=0;entryPerimeter=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="182.04000000000002" y="-810" as="sourcePoint" />
+            <mxPoint x="460.00000000000006" y="-807.2" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L_qc-8ZOa0mfK6d4Q4-V-10" connectable="0" parent="L_qc-8ZOa0mfK6d4Q4-V-9" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="get all chats:&lt;div&gt;GET&amp;nbsp;&lt;span style=&quot;background-color: light-dark(#ffffff, var(--ge-dark-color, #121212)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;/chats&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.0933" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L_qc-8ZOa0mfK6d4Q4-V-11" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;exitX=1.025;exitY=0.075;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.008;entryY=0.08;entryDx=0;entryDy=0;entryPerimeter=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="180" y="-540" as="sourcePoint" />
+            <mxPoint x="457.96000000000004" y="-537.2" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L_qc-8ZOa0mfK6d4Q4-V-12" connectable="0" parent="L_qc-8ZOa0mfK6d4Q4-V-11" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="create chat:&lt;div&gt;POST /create&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.0933" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L_qc-8ZOa0mfK6d4Q4-V-15" edge="1" parent="1" source="L_qc-8ZOa0mfK6d4Q4-V-4" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.139;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0;exitY=0.145;exitDx=0;exitDy=0;exitPerimeter=0;" target="L_qc-8ZOa0mfK6d4Q4-V-3" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="400" y="-630" as="sourcePoint" />
+            <mxPoint x="450" y="-680" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L_qc-8ZOa0mfK6d4Q4-V-16" connectable="0" parent="L_qc-8ZOa0mfK6d4Q4-V-15" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="return chat history" vertex="1">
+          <mxGeometry relative="1" x="-0.0285" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L_qc-8ZOa0mfK6d4Q4-V-17" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.139;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0;exitY=0.145;exitDx=0;exitDy=0;exitPerimeter=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="460" y="-767" as="sourcePoint" />
+            <mxPoint x="180" y="-770" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L_qc-8ZOa0mfK6d4Q4-V-18" connectable="0" parent="L_qc-8ZOa0mfK6d4Q4-V-17" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="return all chats and ids" vertex="1">
+          <mxGeometry relative="1" x="-0.0285" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L_qc-8ZOa0mfK6d4Q4-V-19" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.139;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0;exitY=0.145;exitDx=0;exitDy=0;exitPerimeter=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="460" y="-637" as="sourcePoint" />
+            <mxPoint x="180" y="-640" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L_qc-8ZOa0mfK6d4Q4-V-20" connectable="0" parent="L_qc-8ZOa0mfK6d4Q4-V-19" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="return just claude&#39;s response&lt;div&gt;(can always GET /chat/id to resync)&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.0285" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L_qc-8ZOa0mfK6d4Q4-V-21" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.139;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0;exitY=0.145;exitDx=0;exitDy=0;exitPerimeter=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="460" y="-497" as="sourcePoint" />
+            <mxPoint x="180" y="-500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L_qc-8ZOa0mfK6d4Q4-V-22" connectable="0" parent="L_qc-8ZOa0mfK6d4Q4-V-21" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="returns new chat" vertex="1">
+          <mxGeometry relative="1" x="-0.0285" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L_qc-8ZOa0mfK6d4Q4-V-23" edge="1" parent="1" source="L_qc-8ZOa0mfK6d4Q4-V-4" style="endArrow=classic;html=1;rounded=0;entryX=-0.05;entryY=0.279;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.992;exitY=0.105;exitDx=0;exitDy=0;exitPerimeter=0;" target="L_qc-8ZOa0mfK6d4Q4-V-2" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="400" y="-630" as="sourcePoint" />
+            <mxPoint x="450" y="-680" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L_qc-8ZOa0mfK6d4Q4-V-24" edge="1" parent="1" source="L_qc-8ZOa0mfK6d4Q4-V-2" style="endArrow=classic;html=1;rounded=0;entryX=1.008;entryY=0.164;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.013;exitY=0.407;exitDx=0;exitDy=0;exitPerimeter=0;" target="L_qc-8ZOa0mfK6d4Q4-V-4" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="690" y="-879" as="sourcePoint" />
+            <mxPoint x="827" y="-880" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
