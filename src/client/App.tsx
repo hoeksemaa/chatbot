@@ -61,8 +61,8 @@ function App() {
       <h1>bingobot</h1>
       <div>
         <ScrollArea className="text-window">
-          {chatLog.map((message) => (
-            <Card className="text-bubble">
+          {chatLog.map((message, index) => (
+            <Card key={index} className={`${message.role === "user" ? "user-bubble" : "assistant-bubble"}`}>
               <ReactMarkdown>{message.content as string}</ReactMarkdown>
             </Card>
           ))}
