@@ -1,13 +1,12 @@
 import { Conversation, ConversationId, Message } from "@/server/storage"
 import { useEffect, useState } from "react"
-import { getConversations, postCreateConversation, postMessage } from "./chatClient"
+import { getConversation, getConversations, postCreateConversation, postMessage } from "./chatClient"
 
 // a hook is encapsulated state and other react hooks
 // and it is used to abstract logic in react components, to simplify them.
 export function useChat() {
     const [chat, setChat] = useState<Conversation | null>(null)
     const [conversations, setConversations] = useState<Conversation[]>([])
-    const [currentId, setCurrentID] = useState<ConversationId | null>(null)
 
     const appendMessage = (message: Message) => {
         setChat(prev => prev ? { ...prev, messages: [...prev.messages, message] } : prev)
@@ -36,6 +35,11 @@ export function useChat() {
         setConversations(conversations)
     }
 
+    const fetchConversation = async (id: ConversationId) => {
+        const conversation = await getConversation(id)
+        setChat(conversation)
+    }
+
     // initialize chat whenever a component mounts that is using useChat
     //useEffect(initializeChat, [])
     useEffect(() => {
@@ -45,9 +49,9 @@ export function useChat() {
 
     return {
         chat: chat,
-        //currentId: currentId,
         conversations: conversations,
         sendMessage: sendMessage,
+        fetchConversation: fetchConversation,
         //loadConversations: loadConversations
     }
 }

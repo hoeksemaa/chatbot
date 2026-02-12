@@ -16,6 +16,12 @@ export async function postMessage(message: Message, id: ConversationId) {
     return data
 }
 
+export async function getConversation(id: ConversationId) {
+    const response = await fetch(`/conversation/${id}`)
+    const data: Conversation = await response.json()
+    return data
+}
+
 export async function getConversations() {
     const response = await fetch("/conversations")
     const data = await response.json()

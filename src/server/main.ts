@@ -11,7 +11,11 @@ app.use(express.json())
 
 let conversations = new InMemoryStorage()
 
-//app.get("/chat/:id", async (req, res) => {const conversation = conversations.conversationMap.get(req.body.id)})
+app.get("/conversation/:id", async (req, res) => {
+  const id = req.params.id
+  const conversation = conversations.getConversation(id)
+  res.json(conversation)
+})
 
 app.get("/conversations", (req, res) => {
   res.json(conversations.getConversations())
