@@ -1,5 +1,5 @@
 import { Conversation, ConversationId, Message } from "@/server/storage"
-import { useEffect, useState } from "react"
+import { act, useEffect, useState } from "react"
 import { getConversation, getConversations, postCreateConversation, postMessage } from "./chatClient"
 
 // a hook is encapsulated state and other react hooks
@@ -10,6 +10,10 @@ export function useChat() {
 
     const appendMessage = (message: Message) => {
         setChat(prev => prev ? { ...prev, messages: [...prev.messages, message] } : prev)
+    }
+
+    const appendConversation = (conversation: Conversation) => {
+        setConversations(prev => prev ? [...prev, conversation] : prev)
     }
 
     const initializeConversation = async (): Promise<Conversation> => {
@@ -23,16 +27,15 @@ export function useChat() {
         // home screen with no chat history
         let activeChat = chat
 
-        if (!activeChat) { activeChat = await initializeConversation() }
-
-        if (!activeChat) { throw new Error("weird; chat is still not initialized") }
+        if (!activeChat) {
+            activeChat = await initializeConversation()
+            appendConversation(activeChat)
+        }
 
         const userMessage: Message = { "role": "user", "content": input }
         appendMessage(userMessage)
         const claudeResponse = await postMessage(userMessage, activeChat.id)
         appendMessage(claudeResponse)
-
-        fetchConversations()
     }
 
     const fetchConversation = async (id: ConversationId) => {
@@ -41,7 +44,6 @@ export function useChat() {
     }
 
     const fetchConversations = async () => {
-        console.log("fetching conversations PLURAL...")
         const conversations = await getConversations()
         setConversations(conversations)
     }

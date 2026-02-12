@@ -59,7 +59,7 @@ function App() {
         />
         <Button onClick={handleClick}>Send</Button>
         {conversations && conversations.map((conversation, index) => (
-          <Button onClick={() => handleConversationClick(conversation.id)}>
+          <Button key={index} onClick={() => handleConversationClick(conversation.id)}>
             {conversation.id}
           </Button>
         ))}
