@@ -21,10 +21,10 @@ export interface Storage {
 }
 
 export class InMemoryStorage implements Storage {
-    conversations: Map<ConversationId, Conversation>
+    conversationMap: Map<ConversationId, Conversation>
 
     constructor() {
-        this.conversations = new Map()
+        this.conversationMap = new Map()
     }
 
     // saves new conversation and returns it
@@ -32,13 +32,13 @@ export class InMemoryStorage implements Storage {
         const id: ConversationId = uuid()
         const messages: Message[] = []
         const conversation = { id, messages }
-        this.conversations.set(id, conversation)
+        this.conversationMap.set(id, conversation)
         return conversation
     }
 
     // returns data
     getConversation(id: ConversationId): Conversation {
-        const conversation = this.conversations.get(id)
+        const conversation = this.conversationMap.get(id)
         if (!conversation) {
             throw new Error("conversation is falsy (could be undefined)")
         }
@@ -47,18 +47,18 @@ export class InMemoryStorage implements Storage {
 
     // returns data
     getConversations(): Conversation[] {
-        const conversationList = Array.from(this.conversations.values())
+        const conversationList = Array.from(this.conversationMap.values())
         return conversationList
     }
 
     // updates conversation, saves it, returns bool
     addMessageToConversation(id: ConversationId, message: Message): boolean {
-        let conversation = this.conversations.get(id)
+        let conversation = this.conversationMap.get(id)
         if (!conversation) {
             throw new Error("conversation is falsy (could be undefined)")
         }
         conversation.messages.push(message)
-        this.conversations.set(id, conversation)
+        this.conversationMap.set(id, conversation)
         return true
     }
 }
