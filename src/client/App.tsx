@@ -16,11 +16,12 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer"
 import { useChat } from "./lib/useChat";
+import { ConversationId } from "@/server/storage";
 
 
 function App() {
   const [input, setInput] = useState("")
-  const { chat, conversations, sendMessage } = useChat()
+  const { chat, conversations, sendMessage, fetchConversation } = useChat()
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(event.target.value)
@@ -30,9 +31,14 @@ function App() {
     sendMessage(input)
   }
 
+  const handleConversationClick = (id: ConversationId) => {
+    fetchConversation(id)
+  }
+
   return (
     <>
       <h1>good title here</h1>
+      <h2>current id: {(chat) ? chat.id : "none"}</h2>
       <div>
         <ScrollArea className="text-window">
           {!chat && <div>loading...</div>}
@@ -47,14 +53,11 @@ function App() {
           onChange={handleInputChange}
         />
         <Button onClick={handleClick}>Send</Button>
-        <ul>
-          <li>placeholder</li>
-          {conversations && conversations.map((conversation, index) => (
-            <li key={index}>
-              {conversation.id}
-            </li>
-          ))}
-        </ul>
+        {conversations && conversations.map((conversation, index) => (
+          <Button onClick={() => handleConversationClick(conversation.id)}>
+            {conversation.id}
+          </Button>
+        ))}
       </div>
     </>
   )
