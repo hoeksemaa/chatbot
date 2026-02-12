@@ -1,5 +1,5 @@
 import { Conversation, ConversationId, Message } from "@/server/storage"
-import { act, useEffect, useState } from "react"
+import { useState } from "react"
 import { getConversation, getConversations, postCreateConversation, postMessage } from "./chatClient"
 
 // a hook is encapsulated state and other react hooks
@@ -19,6 +19,7 @@ export function useChat() {
     const initializeConversation = async (): Promise<Conversation> => {
         const conversation = await postCreateConversation()
         setChat(conversation)
+        appendConversation(conversation)
         return conversation
     }
 
@@ -29,7 +30,6 @@ export function useChat() {
 
         if (!activeChat) {
             activeChat = await initializeConversation()
-            appendConversation(activeChat)
         }
 
         const userMessage: Message = { "role": "user", "content": input }
@@ -48,11 +48,16 @@ export function useChat() {
         setConversations(conversations)
     }
 
+    const clearChat = () => {
+        setChat(null)
+    }
+
     return {
         chat: chat,
         conversations: conversations,
         sendMessage: sendMessage,
         fetchConversation: fetchConversation,
-        fetchConversations: fetchConversations
+        fetchConversations: fetchConversations,
+        clearChat: clearChat
     }
 }
