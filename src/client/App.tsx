@@ -4,21 +4,23 @@ import ReactMarkdown from "react-markdown"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { Card } from "@/components/ui/card"
 import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
 import { useChat } from "./lib/useChat";
 
 
 function App() {
   const [input, setInput] = useState("")
-  const { chat, sendMessage } = useChat()
+  const { chat, conversations, sendMessage } = useChat()
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(event.target.value)
@@ -28,10 +30,9 @@ function App() {
     sendMessage(input)
   }
 
-  // TODO: EXAMINE (MESSAGE, INDEX)
   return (
     <>
-      <h1>bingobot</h1>
+      <h1>good title here</h1>
       <div>
         <ScrollArea className="text-window">
           {!chat && <div>loading...</div>}
@@ -46,6 +47,14 @@ function App() {
           onChange={handleInputChange}
         />
         <Button onClick={handleClick}>Send</Button>
+        <ul>
+          <li>placeholder</li>
+          {conversations && conversations.map((conversation, index) => (
+            <li key={index}>
+              {conversation.id}
+            </li>
+          ))}
+        </ul>
       </div>
     </>
   )
