@@ -12,27 +12,27 @@ export function useChat() {
         setChat(prev => prev ? { ...prev, messages: [...prev.messages, message] } : prev)
     }
 
-    const initializeChat = () => {
-        async function initializeConversation() {
-            const conversation = await postCreateConversation()
-            setChat(conversation)
-        }
-        if (!chat) initializeConversation()
+    const initializeConversation = async (): Promise<Conversation> => {
+        const conversation = await postCreateConversation()
+        setChat(conversation)
+        return conversation
     }
 
     const sendMessage = async (input: string) => {
-        if (!chat) {
-            throw new Error("no chat found")
-        }
+        // no chat loaded yet
+        // home screen with no chat history
+        let activeChat = chat
+
+        if (!activeChat) { activeChat = await initializeConversation() }
+
+        if (!activeChat) { throw new Error("weird; chat is still not initialized") }
+
         const userMessage: Message = { "role": "user", "content": input }
         appendMessage(userMessage)
-        const claudeResponse = await postMessage(userMessage, chat.id)
+        const claudeResponse = await postMessage(userMessage, activeChat.id)
         appendMessage(claudeResponse)
-    }
 
-    const loadConversations = async () => {
-        const conversations = await getConversations()
-        setConversations(conversations)
+        fetchConversations()
     }
 
     const fetchConversation = async (id: ConversationId) => {
@@ -40,18 +40,17 @@ export function useChat() {
         setChat(conversation)
     }
 
-    // initialize chat whenever a component mounts that is using useChat
-    //useEffect(initializeChat, [])
-    useEffect(() => {
-        initializeChat()
-        loadConversations()
-    }, [])
+    const fetchConversations = async () => {
+        console.log("fetching conversations PLURAL...")
+        const conversations = await getConversations()
+        setConversations(conversations)
+    }
 
     return {
         chat: chat,
         conversations: conversations,
         sendMessage: sendMessage,
         fetchConversation: fetchConversation,
-        //loadConversations: loadConversations
+        fetchConversations: fetchConversations
     }
 }

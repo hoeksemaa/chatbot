@@ -23,6 +23,7 @@ export async function getConversation(id: ConversationId) {
 }
 
 export async function getConversations() {
+    console.log("getting conversations PLURAL! i'm trying here...")
     const response = await fetch("/conversations")
     const data = await response.json()
     return data

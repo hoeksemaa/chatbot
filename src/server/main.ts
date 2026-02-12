@@ -45,7 +45,6 @@ app.post("/message/:id", async (req, res) => {
   })
 
   // save claude response
-  console.log(response)
   if (!response.content[0] || response.content[0].type != 'text') {
     throw new Error('expected text response from Claude')
   }
