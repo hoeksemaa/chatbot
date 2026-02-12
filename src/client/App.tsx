@@ -21,7 +21,7 @@ import { ConversationId } from "@/server/storage";
 
 function App() {
   const [input, setInput] = useState("")
-  const { chat, conversations, sendMessage, fetchConversation, fetchConversations } = useChat()
+  const { chat, conversations, sendMessage, fetchConversation, fetchConversations, clearChat } = useChat()
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(event.target.value)
@@ -36,6 +36,11 @@ function App() {
     fetchConversation(id)
   }
 
+  const handleNewChat = () => {
+    clearChat()
+    setInput("")
+  }
+
   useEffect(() => {
     fetchConversations()
   }, [])
@@ -46,7 +51,6 @@ function App() {
       <h2>current id: {(chat) ? chat.id : "none"}</h2>
       <div>
         <ScrollArea className="text-window">
-          {!chat && <div>loading...</div>}
           {chat && chat.messages.map((message, index) => (
             <Card key={index} className={`${message.role === "user" ? "user-bubble" : "assistant-bubble"}`}>
               <ReactMarkdown>{message.content as string}</ReactMarkdown>
@@ -58,6 +62,7 @@ function App() {
           onChange={handleInputChange}
         />
         <Button onClick={handleClick}>Send</Button>
+        <Button onClick={handleNewChat}>New Chat</Button>
         {conversations && conversations.map((conversation, index) => (
           <Button key={index} onClick={() => handleConversationClick(conversation.id)}>
             {conversation.id}
