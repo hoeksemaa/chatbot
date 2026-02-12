@@ -1,6 +1,5 @@
 import "./App.css";
-import { useState } from "react";
-import Anthropic from "@anthropic-ai/sdk";
+import { useState, MouseEventHandler } from "react";
 import ReactMarkdown from "react-markdown"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
@@ -14,63 +13,39 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { useChat } from "./lib/useChat";
+
 
 function App() {
   const [input, setInput] = useState("")
-  const [chatLog, setChatLog] = useState<Anthropic.MessageParam[]>([])
+  const { chat, sendMessage } = useChat()
 
-  function handleInputChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
+  const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(event.target.value)
   }
 
-  async function handleClick(event: React.MouseEvent<HTMLButtonElement>) {
-    // isolate and save user message
-    const userMessage: Anthropic.MessageParam = { "role": "user", "content": input }
-    setChatLog(prev => prev.concat(userMessage))
-
-    // send post request
-    const response = await fetch("http://localhost:3000/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(userMessage)}
-    )
-
-    // isolate and save claude response 
-    const claudeResponse: Anthropic.MessageParam = await response.json()
-    setChatLog(prev => prev.concat(claudeResponse))
-    setInput("")
-
-    console.log("CHATLOG: ", chatLog)
+  const handleClick: MouseEventHandler = (e) => {
+    sendMessage(input)
   }
 
-  async function handleReset() {
-    // send post request
-    const response = await fetch("http://localhost:3000/reset", {method: "POST"})
-    const data = await response.json()
-    console.log(data)
-
-    // empty chat log
-    setChatLog(prev => [])
-    setInput("")
-  }
-
+  // TODO: EXAMINE (MESSAGE, INDEX)
   return (
     <>
       <h1>bingobot</h1>
       <div>
         <ScrollArea className="text-window">
-          {chatLog.map((message, index) => (
+          {!chat && <div>loading...</div>}
+          {chat && chat.messages.map((message, index) => (
             <Card key={index} className={`${message.role === "user" ? "user-bubble" : "assistant-bubble"}`}>
               <ReactMarkdown>{message.content as string}</ReactMarkdown>
             </Card>
           ))}
         </ScrollArea>
-        <Textarea 
+        <Textarea
           value={input}
           onChange={handleInputChange}
         />
         <Button onClick={handleClick}>Send</Button>
-        <Button onClick={handleReset}>Reset</Button>
       </div>
     </>
   )
