@@ -20,12 +20,15 @@ function App() {
   const [input, setInput] = useState("")
   const { chat, sendMessage } = useChat()
 
-  function handleInputChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
+  const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(event.target.value)
   }
 
-  const handleClick: MouseEventHandler = (e) => sendMessage()
+  const handleClick: MouseEventHandler = (e) => {
+    sendMessage(input)
+  }
 
+  // TODO: EXAMINE (MESSAGE, INDEX)
   return (
     <>
       <h1>bingobot</h1>
