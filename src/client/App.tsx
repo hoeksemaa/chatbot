@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState, MouseEventHandler } from "react";
+import { useState, MouseEventHandler, useEffect } from "react";
 import ReactMarkdown from "react-markdown"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
@@ -21,7 +21,7 @@ import { ConversationId } from "@/server/storage";
 
 function App() {
   const [input, setInput] = useState("")
-  const { chat, conversations, sendMessage, fetchConversation } = useChat()
+  const { chat, conversations, sendMessage, fetchConversation, fetchConversations } = useChat()
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(event.target.value)
@@ -29,11 +29,16 @@ function App() {
 
   const handleClick: MouseEventHandler = (e) => {
     sendMessage(input)
+    setInput("")
   }
 
   const handleConversationClick = (id: ConversationId) => {
     fetchConversation(id)
   }
+
+  useEffect(() => {
+    fetchConversations()
+  }, [])
 
   return (
     <>
@@ -54,7 +59,7 @@ function App() {
         />
         <Button onClick={handleClick}>Send</Button>
         {conversations && conversations.map((conversation, index) => (
-          <Button onClick={() => handleConversationClick(conversation.id)}>
+          <Button key={index} onClick={() => handleConversationClick(conversation.id)}>
             {conversation.id}
           </Button>
         ))}

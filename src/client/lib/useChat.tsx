@@ -1,5 +1,5 @@
 import { Conversation, ConversationId, Message } from "@/server/storage"
-import { useEffect, useState } from "react"
+import { act, useEffect, useState } from "react"
 import { getConversation, getConversations, postCreateConversation, postMessage } from "./chatClient"
 
 // a hook is encapsulated state and other react hooks
@@ -12,27 +12,30 @@ export function useChat() {
         setChat(prev => prev ? { ...prev, messages: [...prev.messages, message] } : prev)
     }
 
-    const initializeChat = () => {
-        async function initializeConversation() {
-            const conversation = await postCreateConversation()
-            setChat(conversation)
-        }
-        if (!chat) initializeConversation()
+    const appendConversation = (conversation: Conversation) => {
+        setConversations(prev => prev ? [...prev, conversation] : prev)
+    }
+
+    const initializeConversation = async (): Promise<Conversation> => {
+        const conversation = await postCreateConversation()
+        setChat(conversation)
+        return conversation
     }
 
     const sendMessage = async (input: string) => {
-        if (!chat) {
-            throw new Error("no chat found")
+        // no chat loaded yet
+        // home screen with no chat history
+        let activeChat = chat
+
+        if (!activeChat) {
+            activeChat = await initializeConversation()
+            appendConversation(activeChat)
         }
+
         const userMessage: Message = { "role": "user", "content": input }
         appendMessage(userMessage)
-        const claudeResponse = await postMessage(userMessage, chat.id)
+        const claudeResponse = await postMessage(userMessage, activeChat.id)
         appendMessage(claudeResponse)
-    }
-
-    const loadConversations = async () => {
-        const conversations = await getConversations()
-        setConversations(conversations)
     }
 
     const fetchConversation = async (id: ConversationId) => {
@@ -40,18 +43,16 @@ export function useChat() {
         setChat(conversation)
     }
 
-    // initialize chat whenever a component mounts that is using useChat
-    //useEffect(initializeChat, [])
-    useEffect(() => {
-        initializeChat()
-        loadConversations()
-    }, [])
+    const fetchConversations = async () => {
+        const conversations = await getConversations()
+        setConversations(conversations)
+    }
 
     return {
         chat: chat,
         conversations: conversations,
         sendMessage: sendMessage,
         fetchConversation: fetchConversation,
-        //loadConversations: loadConversations
+        fetchConversations: fetchConversations
     }
 }
