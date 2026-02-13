@@ -1,4 +1,5 @@
 import { Conversation, ConversationId, Message } from "@/server/storage";
+import { createAuthClient } from "better-auth/react"
 
 export async function postCreateConversation() {
     const response = await fetch("/create", { method: "POST" })
@@ -27,3 +28,7 @@ export async function getConversations() {
     const data = await response.json()
     return data
 }
+
+export const authClient = createAuthClient({
+    baseURL: "http://localhost:3000"
+})

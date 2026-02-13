@@ -4,6 +4,8 @@ import 'dotenv/config'
 import Anthropic from "@anthropic-ai/sdk";
 import type { Role, ConversationId, Message, Conversation } from "./storage.ts"
 import { InMemoryStorage, SqliteStorage } from "./storage"
+import { toNodeHandler } from 'better-auth/node'
+import { auth } from 'auth'
 
 const app = express();
 const client = new Anthropic();
@@ -11,6 +13,8 @@ app.use(express.json())
 
 //let conversations = new InMemoryStorage()
 let conversations = new SqliteStorage()
+
+app.all('/api/auth/{*any}', toNodeHandler(auth));
 
 app.get("/conversation/:id", async (req, res) => {
   const id = req.params.id
