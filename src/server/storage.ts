@@ -24,7 +24,8 @@ export interface Conversation {
 
 export interface ConversationRow {
     id: ConversationId,
-    title: string
+    title: string,
+    user_id: string
 }
 
 export interface Storage {
@@ -85,7 +86,8 @@ export class SqliteStorage implements Storage {
         this.db.exec(
             `CREATE TABLE IF NOT EXISTS conversations (
                 id TEXT PRIMARY KEY,
-                title TEXT NOT NULL
+                title TEXT NOT NULL, 
+                user_id TEXT NOT NULL
             )`
         )
         this.db.exec(
