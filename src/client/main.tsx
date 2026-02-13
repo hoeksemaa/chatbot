@@ -12,9 +12,9 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
       <Routes>
         <Route path="/" element={<Navigate to="/new" replace />} />
         <Route path="/new" element={<App />} />
-        <Route path="/chat" element={<Navigate to="/new" replace />} />
-        <Route path="/chat/:chatId" element={<App />} />
+        <Route path="/conversation" element={<Navigate to="/new" replace />} />
+        <Route path="/conversation/:conversationId" element={<App />} />
       </Routes>
     </BrowserRouter>
-  </React.StrictMode>,
+  </React.StrictMode>
 );

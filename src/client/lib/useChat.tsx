@@ -23,7 +23,7 @@ export function useChat() {
         return conversation
     }
 
-    const sendMessage = async (input: string) => {
+    const sendMessage = async (input: string): Promise<ConversationId> => {
         // no chat loaded yet
         // home screen with no chat history
         let activeChat = chat
@@ -36,6 +36,8 @@ export function useChat() {
         appendMessage(userMessage)
         const claudeResponse = await postMessage(userMessage, activeChat.id)
         appendMessage(claudeResponse)
+
+        return activeChat.id
     }
 
     const fetchConversation = async (id: ConversationId) => {

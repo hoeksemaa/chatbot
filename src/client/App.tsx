@@ -14,41 +14,56 @@ import {
 } from "@/components/ui/sheet"
 import { useChat } from "./lib/useChat";
 import { ConversationId } from "@/server/storage";
+import { useNavigate, useParams } from "react-router";
 
 
 function App() {
   const [input, setInput] = useState("")
   const [sheetOpen, setSheetOpen] = useState(false)
   const { chat, conversations, sendMessage, fetchConversation, fetchConversations, clearChat } = useChat()
+  let { conversationId } = useParams()
+  let navigate = useNavigate()
 
+  // send message
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(event.target.value)
   }
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleKeyDown = async (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key == "Enter" && !e.shiftKey && input.trim()) {
       e.preventDefault()
-      sendMessage(input)
+      const conversationId = await sendMessage(input)
+      navigate(`/conversation/${conversationId}`, { replace: true })
       setInput("")
     }
   }
 
-  const handleClick: MouseEventHandler = (e) => {
+  const handleClick: MouseEventHandler = async (e) => {
     if (input.trim()) {
-      sendMessage(input)
+      const conversationId = await sendMessage(input)
+      navigate(`/conversation/${conversationId}`, { replace: true })
       setInput("")
     }
   }
 
-  const handleConversationClick = (id: ConversationId) => {
-    fetchConversation(id)
+  const handleSidebarClick = (id: ConversationId) => {
+    console.log("handling sidebar click")
+    navigate(`/conversation/${id}`)
     setSheetOpen(false)
   }
 
   const handleNewChat = () => {
-    clearChat()
+    navigate(`/new`)
     setInput("")
   }
+
+  useEffect(() => {
+    if (conversationId) {
+      fetchConversation(conversationId)
+    } else {
+      clearChat()
+    }
+  }, [conversationId])
 
   useEffect(() => {
     fetchConversations()
@@ -82,7 +97,7 @@ function App() {
               <SheetTitle>Chats</SheetTitle>
             </SheetHeader>
             {conversations?.map((c) => (
-              <Button key={c.id} variant="ghost" onClick={() => handleConversationClick(c.id)}>
+              <Button key={c.id} variant="ghost" onClick={() => handleSidebarClick(c.id)}>
                 {c.id}
               </Button>
             ))}
