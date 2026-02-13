@@ -3,13 +3,14 @@ import ViteExpress from "vite-express";
 import 'dotenv/config'
 import Anthropic from "@anthropic-ai/sdk";
 import type { Role, ConversationId, Message, Conversation } from "./storage.ts"
-import { InMemoryStorage } from "./storage"
+import { InMemoryStorage, SqliteStorage } from "./storage"
 
 const app = express();
 const client = new Anthropic();
 app.use(express.json())
 
-let conversations = new InMemoryStorage()
+//let conversations = new InMemoryStorage()
+let conversations = new SqliteStorage()
 
 app.get("/conversation/:id", async (req, res) => {
   const id = req.params.id
