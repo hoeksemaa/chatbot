@@ -16,10 +16,11 @@ button {
 .user-bubble {
   background-color: #3b82f6;
   color: white;
-  text-align: right;
   padding: 10px;
   margin: 10px;
   width: fit-content;
+  max-width: 80%;
+  overflow-wrap: break-word;
   margin-left: auto;
 }
 
@@ -30,5 +31,12 @@ button {
   padding: 10px;
   margin: 10px;
   width: fit-content;
+  max-width: 80%;
+  overflow-wrap: break-word;
   margin-right: auto;
+}
+
+.user-bubble p,
+.assistant-bubble p {
+  margin: 0;
 }
