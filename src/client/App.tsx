@@ -6,34 +6,43 @@ import { Textarea } from "@/components/ui/textarea"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Card } from "@/components/ui/card"
 import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer"
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
 import { useChat } from "./lib/useChat";
 import { ConversationId } from "@/server/storage";
 
 
 function App() {
   const [input, setInput] = useState("")
+  const [sheetOpen, setSheetOpen] = useState(false)
   const { chat, conversations, sendMessage, fetchConversation, fetchConversations, clearChat } = useChat()
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(event.target.value)
   }
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key == "Enter" && !e.shiftKey && input.trim()) {
+      e.preventDefault()
+      sendMessage(input)
+      setInput("")
+    }
+  }
+
   const handleClick: MouseEventHandler = (e) => {
-    sendMessage(input)
-    setInput("")
+    if (input.trim()) {
+      sendMessage(input)
+      setInput("")
+    }
   }
 
   const handleConversationClick = (id: ConversationId) => {
     fetchConversation(id)
+    setSheetOpen(false)
   }
 
   const handleNewChat = () => {
@@ -60,14 +69,26 @@ function App() {
         <Textarea
           value={input}
           onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
         />
         <Button onClick={handleClick}>Send</Button>
         <Button onClick={handleNewChat}>New Chat</Button>
-        {conversations && conversations.map((conversation, index) => (
-          <Button key={index} onClick={() => handleConversationClick(conversation.id)}>
-            {conversation.id}
-          </Button>
-        ))}
+        <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+          <SheetTrigger asChild>
+            <Button variant="outline">Chats</Button>
+          </SheetTrigger>
+          <SheetContent side="left">
+            <SheetHeader>
+              <SheetTitle>Chats</SheetTitle>
+            </SheetHeader>
+            {conversations?.map((c) => (
+              <Button key={c.id} variant="ghost" onClick={() => handleConversationClick(c.id)}>
+                {c.id}
+              </Button>
+            ))}
+          </SheetContent>
+        </Sheet>
+
       </div>
     </>
   )
