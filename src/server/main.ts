@@ -1,6 +1,6 @@
+import 'dotenv/config'
 import express from "express";
 import ViteExpress from "vite-express";
-import 'dotenv/config'
 import Anthropic from "@anthropic-ai/sdk";
 import type { Role, ConversationId, Message, Conversation } from "./storage.ts"
 import { InMemoryStorage, SqliteStorage } from "./storage"

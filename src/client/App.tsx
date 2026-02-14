@@ -15,10 +15,8 @@ import {
 import { useChat } from "./lib/useChat";
 import { ConversationId } from "@/server/storage";
 import { useNavigate, useParams } from "react-router";
-import Login from "./Login";
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false)
   const [input, setInput] = useState("")
   const [sheetOpen, setSheetOpen] = useState(false)
   const { chat, conversations, sendMessage, fetchConversation, fetchConversations, clearChat } = useChat()
@@ -70,48 +68,44 @@ function App() {
     fetchConversations()
   }, [])
 
-  if (!loggedIn) {
-    return (<Login />)
-  } else {
-    return (
-      <>
-        <h1>good title here</h1>
-        <h2>current id: {(chat) ? chat.id : "none"}</h2>
-        <div>
-          <ScrollArea className="text-window">
-            {chat && chat.messages.map((message, index) => (
-              <Card key={index} className={`${message.role === "user" ? "user-bubble" : "assistant-bubble"}`}>
-                <ReactMarkdown>{message.content as string}</ReactMarkdown>
-              </Card>
+  return (
+    <>
+      <h1>good title here</h1>
+      <h2>current id: {(chat) ? chat.id : "none"}</h2>
+      <div>
+        <ScrollArea className="text-window">
+          {chat && chat.messages.map((message, index) => (
+            <Card key={index} className={`${message.role === "user" ? "user-bubble" : "assistant-bubble"}`}>
+              <ReactMarkdown>{message.content as string}</ReactMarkdown>
+            </Card>
+          ))}
+        </ScrollArea>
+        <Textarea
+          value={input}
+          onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
+        />
+        <Button onClick={handleClick}>Send</Button>
+        <Button onClick={handleNewChat}>New Chat</Button>
+        <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+          <SheetTrigger asChild>
+            <Button variant="outline">Chats</Button>
+          </SheetTrigger>
+          <SheetContent side="left">
+            <SheetHeader>
+              <SheetTitle>Chats</SheetTitle>
+            </SheetHeader>
+            {conversations?.map((c) => (
+              <Button key={c.id} variant="ghost" onClick={() => handleSidebarClick(c.id)}>
+                {c.id}
+              </Button>
             ))}
-          </ScrollArea>
-          <Textarea
-            value={input}
-            onChange={handleInputChange}
-            onKeyDown={handleKeyDown}
-          />
-          <Button onClick={handleClick}>Send</Button>
-          <Button onClick={handleNewChat}>New Chat</Button>
-          <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
-            <SheetTrigger asChild>
-              <Button variant="outline">Chats</Button>
-            </SheetTrigger>
-            <SheetContent side="left">
-              <SheetHeader>
-                <SheetTitle>Chats</SheetTitle>
-              </SheetHeader>
-              {conversations?.map((c) => (
-                <Button key={c.id} variant="ghost" onClick={() => handleSidebarClick(c.id)}>
-                  {c.id}
-                </Button>
-              ))}
-            </SheetContent>
-          </Sheet>
+          </SheetContent>
+        </Sheet>
 
-        </div>
-      </>
-    )
-  }
+      </div>
+    </>
+  )
 }
 
 export default App;
