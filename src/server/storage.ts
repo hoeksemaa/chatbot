@@ -30,7 +30,7 @@ export interface ConversationRow {
 export interface Storage {
     createConversation(userId: string): Conversation
     getConversation(id: ConversationId): Conversation
-    getConversations(): Conversation[]
+    getConversations(userId: string): Conversation[]
     addMessageToConversation(id: ConversationId, message: Message): boolean
 }
 
@@ -60,7 +60,7 @@ export class InMemoryStorage implements Storage {
     }
 
     // returns data
-    getConversations(userId?: string): Conversation[] {
+    getConversations(userId: string): Conversation[] {
         const conversationList = Array.from(this.conversationMap.values())
         return conversationList
     }
@@ -128,7 +128,7 @@ export class SqliteStorage implements Storage {
         return { id: id, messages: messages }
     }
 
-    getConversations(userId?: string): Conversation[] {
+    getConversations(userId: string): Conversation[] {
         const conversations: Conversation[] = []
 
         // collect all conversations and messages
