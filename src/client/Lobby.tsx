@@ -19,10 +19,14 @@ function Lobby() {
         }
     }
 
-    return (signedUp) ?
-        <SignupForm onSwitchForm={toggleForm} />
-        :
-        <LoginForm onSwitchForm={toggleForm} />
+    return (
+        <div className="flex items-center justify-center min-h-screen bg-stone-100 p-8">
+            {signedUp
+                ? <SignupForm onSwitchForm={toggleForm} />
+                : <LoginForm onSwitchForm={toggleForm} />
+            }
+        </div>
+    )
 }
 
 export default Lobby;

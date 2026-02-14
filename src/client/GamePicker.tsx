@@ -23,7 +23,7 @@ function GamePicker() {
             style={{ backgroundImage: "url(/assets/world_map.png)" }}
         >
             <div className="bg-background/80 backdrop-blur-sm rounded-xl p-8 max-w-2xl w-full">
-                <h1 className="text-3xl font-bold mb-2 text-center">an adventure in...</h1>
+                <h1 className="text-2xl font-bold mb-2 text-center">an adventure in...</h1>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {GAMES.map((game) => (
                         <Card

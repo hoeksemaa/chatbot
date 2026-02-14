@@ -4,38 +4,9 @@
   text-align: center;
 }
 
-button {
-  margin: 10px;
+.terminal-message p {
+  margin: 0 0 0.5em 0;
 }
-
-.text-bubble {
-  padding: 5px;
-}
-
-.user-bubble {
-  background-color: #3b82f6;
-  color: white;
-  padding: 10px;
-  margin: 10px;
-  width: fit-content;
-  max-width: 80%;
-  overflow-wrap: break-word;
-  margin-left: auto;
-}
-
-.assistant-bubble {
-  background-color: #e5e7eb;
-  color: black;
-  text-align: left;
-  padding: 10px;
-  margin: 10px;
-  width: fit-content;
-  max-width: 80%;
-  overflow-wrap: break-word;
-  margin-right: auto;
-}
-
-.user-bubble p,
-.assistant-bubble p {
-  margin: 0;
+.terminal-message p:last-child {
+  margin-bottom: 0;
 }

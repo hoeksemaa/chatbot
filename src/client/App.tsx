@@ -1,10 +1,10 @@
 import "./App.css";
 import { useState, MouseEventHandler, useEffect } from "react";
 import ReactMarkdown from "react-markdown"
+import { CornerDownLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Card } from "@/components/ui/card"
 import {
   Sheet,
   SheetContent,
@@ -81,51 +81,77 @@ function App() {
       className="min-h-screen bg-cover bg-center bg-no-repeat bg-fixed"
       style={game ? { backgroundImage: `url(${game.image})` } : undefined}
     >
-      <div className={game ? "bg-background/85 backdrop-blur-sm min-h-screen" : "min-h-screen"}>
-        <div>
-          <ScrollArea className="text-window">
-            {chat && chat.messages.map((message, index) => (
-              <Card key={index} className={`${message.role === "user" ? "user-bubble" : "assistant-bubble"}`}>
-                <ReactMarkdown>{message.content as string}</ReactMarkdown>
-              </Card>
-            ))}
-          </ScrollArea>
-          {victory && (
-            <Card className="bg-green-900 text-white text-center p-6 mb-4">
-              <h2 className="text-2xl font-bold">Victory!</h2>
-              <p className="text-muted-foreground mt-1">You completed the adventure.</p>
-              <Button className="mt-4" onClick={handleNewChat}>Play Again</Button>
-            </Card>
-          )}
-          {!victory && (
-            <>
-              <Textarea
-                value={input}
-                onChange={handleInputChange}
-                onKeyDown={handleKeyDown}
-              />
-              <Button onClick={handleClick}>Send</Button>
-            </>
-          )}
+      <div className="min-h-screen flex flex-col">
+
+        {/* Action buttons — top bar */}
+        <div className="flex justify-center gap-4 p-4">
           <Button onClick={handleNewChat}>New Adventure</Button>
-          <Button variant="outline" onClick={() => authClient.signOut().then(() => { window.location.href = "/" })}>Sign Out</Button>
           <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
             <SheetTrigger asChild>
-              <Button variant="outline">Chats</Button>
+              <Button variant="outline">Cities</Button>
             </SheetTrigger>
-            <SheetContent side="left">
+            <SheetContent side="left" className="bg-stone-100/90 backdrop-blur-md border-stone-200/60">
               <SheetHeader>
-                <SheetTitle>Chats</SheetTitle>
+                <SheetTitle className="text-stone-700">Cities</SheetTitle>
               </SheetHeader>
               {conversations?.map((c) => (
-                <Button key={c.id} variant="ghost" onClick={() => handleSidebarClick(c.id)}>
+                <Button key={c.id} variant="ghost" className="text-stone-600 hover:text-stone-800 hover:bg-stone-200/50 justify-start" onClick={() => handleSidebarClick(c.id)}>
                   {c.gameId ? getGameById(c.gameId)?.city ?? c.id : c.id}
                 </Button>
               ))}
             </SheetContent>
           </Sheet>
-
+          <Button variant="outline" onClick={() => authClient.signOut().then(() => { window.location.href = "/" })}>Sign Out</Button>
         </div>
+
+        {/* Terminal window */}
+        <div className="flex-1 mx-[5%] mb-[5%] bg-white/50 backdrop-blur-md text-stone-800 font-mono border border-white/30 rounded-lg shadow-md flex flex-col overflow-hidden">
+
+          {/* Messages */}
+          <ScrollArea className="flex-1 p-6">
+            {chat && chat.messages.map((message, index) => (
+              <div
+                key={index}
+                className={`mb-4 ${message.role === "user" ? "text-right" : "text-left"}`}
+              >
+                {message.role === "user" && <span className="text-green-500 mr-1">&gt;</span>}
+                <div className={`terminal-message inline-block max-w-[80%] text-left text-sm leading-relaxed ${message.role === "user" ? "text-green-500" : ""}`}>
+                  <ReactMarkdown>{message.content as string}</ReactMarkdown>
+                </div>
+              </div>
+            ))}
+            {victory && (
+              <div className="bg-green-900/90 text-white text-center p-6 rounded border border-green-700 mx-6 mb-4">
+                <h2 className="text-2xl font-bold">Victory!</h2>
+                <p className="text-stone-300 mt-1">You completed the adventure.</p>
+                <Button className="mt-4" onClick={handleNewChat}>Play Again</Button>
+              </div>
+            )}
+          </ScrollArea>
+
+          {/* Input area — bottom of terminal */}
+          {!victory && (
+            <div className="relative border-t border-white/30 bg-white/50 backdrop-blur-md flex items-start">
+              <span className="text-green-500 font-mono pl-3 pt-2 select-none">&gt;</span>
+              <Textarea
+                value={input}
+                onChange={handleInputChange}
+                onKeyDown={handleKeyDown}
+                placeholder="What do you do?"
+                className="resize-none bg-transparent border-0 text-green-500 font-mono pl-1 pr-12 focus-visible:ring-0 focus-visible:border-0 min-h-[60px] shadow-none placeholder:text-green-500/40"
+              />
+              <Button
+                onClick={handleClick}
+                size="icon"
+                className="absolute bottom-2 right-2 h-8 w-8"
+                disabled={!input.trim()}
+              >
+                <CornerDownLeft className="h-4 w-4" />
+              </Button>
+            </div>
+          )}
+        </div>
+
       </div>
     </div>
   )

@@ -36,11 +36,11 @@ export function LoginForm({
     }
 
     return (
-        <div className={cn("flex flex-col gap-6", className)} {...props}>
-            <Card>
+        <div className={cn("flex flex-col gap-6 w-full max-w-md", className)} {...props}>
+            <Card className="bg-white/60 backdrop-blur-md border-stone-200/60 shadow-md">
                 <CardHeader>
-                    <CardTitle>Login to your account</CardTitle>
-                    <CardDescription>
+                    <CardTitle className="text-stone-800">Login to your account</CardTitle>
+                    <CardDescription className="text-stone-500">
                         Enter your email below to login to your account
                     </CardDescription>
                 </CardHeader>
@@ -75,7 +75,7 @@ export function LoginForm({
                                     Login
                                 </Button>
                                 <FieldDescription className="text-center">
-                                    Don&apos;t have an account? <a href="#" onClick={(e) => { e.preventDefault(); onSwitchForm() }}>Sign up</a>
+                                    Don&apos;t have an account? <a href="#" className="text-green-600 hover:text-green-500" onClick={(e) => { e.preventDefault(); onSwitchForm() }}>Sign up</a>
                                 </FieldDescription>
                             </Field>
                         </FieldGroup>
