@@ -2,6 +2,7 @@ export interface GameConfig {
     id: string
     city: string
     year: string
+    image: string
     worldDescription: string
     goal: string
     openingNarration: string
@@ -12,6 +13,7 @@ export const GAMES: GameConfig[] = [
         id: "pompeii",
         city: "Pompeii",
         year: "79 AD",
+        image: "/assets/pompeii.png",
         worldDescription: `You are set in Pompeii on the morning of August 24th, 79 AD. The city is a thriving Roman resort town of 11,000 people on the Bay of Naples. Mount Vesuvius looms to the north — it has been rumbling for days, but no one alive has ever seen it erupt. Most citizens are unconcerned. The ground shakes occasionally. Dogs are uneasy. The fountain in the forum stopped flowing yesterday.
 
 The city is alive: merchants hawk garum and wine in the macellum, gladiators train at the ludus, politicians campaign with painted slogans on the walls, and enslaved people carry water from the castellum. The Stabian Baths are packed. A performance is being set up at the amphitheater. The streets are rutted stone with raised crosswalks over the sewage channels. The wealthy live in domus with painted frescoes; the poor live above shops in cramped insulae.
@@ -41,6 +43,7 @@ What do you do?`
         id: "kowloon",
         city: "Kowloon Walled City",
         year: "1987",
+        image: "/assets/kwc.png",
         worldDescription: `You are set inside Kowloon Walled City in Hong Kong, 1987. This is a six-acre block of ungoverned urban density — 33,000 people crammed into roughly 350 interconnected buildings, most between 10 and 14 stories tall. There is no government presence, no building codes, no law except informal community agreements. Sunlight does not reach the ground floor.
 
 The interior is a labyrinth: narrow corridors lit by fluorescent tubes, dripping pipes, tangled electrical wiring, staircases that dead-end or connect to someone's living room. Businesses operate without licenses — dentists, doctors, noodle factories, fish ball processors, strip clubs, opium dens. Rooftops are the only open space, used for dog kennels, pigeon coops, TV antennas, and children playing.

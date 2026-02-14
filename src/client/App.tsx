@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/sheet"
 import { useChat } from "./lib/useChat";
 import { ConversationId } from "@/server/storage";
+import { getGameById } from "@/server/games";
 import { Navigate, useNavigate, useParams } from "react-router";
 import { authClient } from "./lib/authClient";
 
@@ -73,8 +74,14 @@ function App() {
   if (isPending) return <div>Loading...</div>
   if (!session) return <Navigate to="/" replace />
 
+  const game = chat?.gameId ? getGameById(chat.gameId) : undefined
+
   return (
-    <>
+    <div
+      className="min-h-screen bg-cover bg-center bg-no-repeat bg-fixed"
+      style={game ? { backgroundImage: `url(${game.image})` } : undefined}
+    >
+      <div className={game ? "bg-background/85 backdrop-blur-sm min-h-screen" : "min-h-screen"}>
       <h1>good title here</h1>
       <h2>current id: {(chat) ? chat.id : "none"}</h2>
       <div>
@@ -121,7 +128,8 @@ function App() {
         </Sheet>
 
       </div>
-    </>
+      </div>
+    </div>
   )
 }
 
