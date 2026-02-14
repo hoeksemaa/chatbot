@@ -32,7 +32,7 @@ export function SignupForm({ onSwitchForm, ...props }: React.ComponentProps<type
     }
 
     return (
-        <Card className="bg-white/60 backdrop-blur-md border-stone-200/60 shadow-md w-full max-w-md" {...props}>
+        <Card className="bg-amber-50/60 backdrop-blur-md border-amber-200/60 shadow-md w-full max-w-md" {...props}>
             <CardHeader>
                 <CardTitle className="text-stone-800">Create an account</CardTitle>
                 <CardDescription className="text-stone-500">
