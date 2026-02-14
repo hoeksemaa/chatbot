@@ -82,52 +82,50 @@ function App() {
       style={game ? { backgroundImage: `url(${game.image})` } : undefined}
     >
       <div className={game ? "bg-background/85 backdrop-blur-sm min-h-screen" : "min-h-screen"}>
-      <h1>good title here</h1>
-      <h2>current id: {(chat) ? chat.id : "none"}</h2>
-      <div>
-        <ScrollArea className="text-window">
-          {chat && chat.messages.map((message, index) => (
-            <Card key={index} className={`${message.role === "user" ? "user-bubble" : "assistant-bubble"}`}>
-              <ReactMarkdown>{message.content as string}</ReactMarkdown>
-            </Card>
-          ))}
-        </ScrollArea>
-        {victory && (
-          <Card className="bg-green-900 text-white text-center p-6 mb-4">
-            <h2 className="text-2xl font-bold">Victory!</h2>
-            <p className="text-muted-foreground mt-1">You completed the adventure.</p>
-            <Button className="mt-4" onClick={handleNewChat}>Play Again</Button>
-          </Card>
-        )}
-        {!victory && (
-          <>
-            <Textarea
-              value={input}
-              onChange={handleInputChange}
-              onKeyDown={handleKeyDown}
-            />
-            <Button onClick={handleClick}>Send</Button>
-          </>
-        )}
-        <Button onClick={handleNewChat}>New Adventure</Button>
-        <Button variant="outline" onClick={() => authClient.signOut().then(() => { window.location.href = "/" })}>Sign Out</Button>
-        <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
-          <SheetTrigger asChild>
-            <Button variant="outline">Chats</Button>
-          </SheetTrigger>
-          <SheetContent side="left">
-            <SheetHeader>
-              <SheetTitle>Chats</SheetTitle>
-            </SheetHeader>
-            {conversations?.map((c) => (
-              <Button key={c.id} variant="ghost" onClick={() => handleSidebarClick(c.id)}>
-                {c.id}
-              </Button>
+        <div>
+          <ScrollArea className="text-window">
+            {chat && chat.messages.map((message, index) => (
+              <Card key={index} className={`${message.role === "user" ? "user-bubble" : "assistant-bubble"}`}>
+                <ReactMarkdown>{message.content as string}</ReactMarkdown>
+              </Card>
             ))}
-          </SheetContent>
-        </Sheet>
+          </ScrollArea>
+          {victory && (
+            <Card className="bg-green-900 text-white text-center p-6 mb-4">
+              <h2 className="text-2xl font-bold">Victory!</h2>
+              <p className="text-muted-foreground mt-1">You completed the adventure.</p>
+              <Button className="mt-4" onClick={handleNewChat}>Play Again</Button>
+            </Card>
+          )}
+          {!victory && (
+            <>
+              <Textarea
+                value={input}
+                onChange={handleInputChange}
+                onKeyDown={handleKeyDown}
+              />
+              <Button onClick={handleClick}>Send</Button>
+            </>
+          )}
+          <Button onClick={handleNewChat}>New Adventure</Button>
+          <Button variant="outline" onClick={() => authClient.signOut().then(() => { window.location.href = "/" })}>Sign Out</Button>
+          <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+            <SheetTrigger asChild>
+              <Button variant="outline">Chats</Button>
+            </SheetTrigger>
+            <SheetContent side="left">
+              <SheetHeader>
+                <SheetTitle>Chats</SheetTitle>
+              </SheetHeader>
+              {conversations?.map((c) => (
+                <Button key={c.id} variant="ghost" onClick={() => handleSidebarClick(c.id)}>
+                  {c.gameId ? getGameById(c.gameId)?.city ?? c.id : c.id}
+                </Button>
+              ))}
+            </SheetContent>
+          </Sheet>
 
-      </div>
+        </div>
       </div>
     </div>
   )
