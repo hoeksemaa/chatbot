@@ -1,4 +1,4 @@
-import { Conversation, ConversationId, Message } from "@/server/storage";
+import { Conversation, ConversationId, Message } from "@/server/storage"
 
 export async function postCreateConversation() {
     const response = await fetch("/create", { method: "POST" })

@@ -14,10 +14,11 @@ import {
 } from "@/components/ui/sheet"
 import { useChat } from "./lib/useChat";
 import { ConversationId } from "@/server/storage";
-import { useNavigate, useParams } from "react-router";
-
+import { Navigate, useNavigate, useParams } from "react-router";
+import { authClient } from "./lib/authClient";
 
 function App() {
+  const { data: session, isPending } = authClient.useSession()
   const [input, setInput] = useState("")
   const [sheetOpen, setSheetOpen] = useState(false)
   const { chat, conversations, sendMessage, fetchConversation, fetchConversations, clearChat } = useChat()
@@ -69,6 +70,9 @@ function App() {
     fetchConversations()
   }, [])
 
+  if (isPending) return <div>Loading...</div>
+  if (!session) return <Navigate to="/" replace />
+
   return (
     <>
       <h1>good title here</h1>
@@ -88,6 +92,7 @@ function App() {
         />
         <Button onClick={handleClick}>Send</Button>
         <Button onClick={handleNewChat}>New Chat</Button>
+        <Button variant="outline" onClick={() => authClient.signOut().then(() => { window.location.href = "/" })}>Sign Out</Button>
         <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
           <SheetTrigger asChild>
             <Button variant="outline">Chats</Button>

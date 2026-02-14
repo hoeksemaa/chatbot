@@ -1,6 +1,5 @@
 import { v4 as uuid } from 'uuid'
 import Database from 'better-sqlite3'
-import { secureHeapUsed } from 'crypto'
 
 export type Role = "user" | "assistant"
 export type ConversationId = string
@@ -24,13 +23,14 @@ export interface Conversation {
 
 export interface ConversationRow {
     id: ConversationId,
-    title: string
+    title: string,
+    userId: string
 }
 
 export interface Storage {
-    createConversation(): Conversation
+    createConversation(userId: string): Conversation
     getConversation(id: ConversationId): Conversation
-    getConversations(): Conversation[]
+    getConversations(userId: string): Conversation[]
     addMessageToConversation(id: ConversationId, message: Message): boolean
 }
 
@@ -42,7 +42,7 @@ export class InMemoryStorage implements Storage {
     }
 
     // saves new conversation and returns it
-    createConversation(): Conversation {
+    createConversation(userId: string): Conversation {
         const id: ConversationId = uuid()
         const messages: Message[] = []
         const conversation = { id, messages }
@@ -60,7 +60,7 @@ export class InMemoryStorage implements Storage {
     }
 
     // returns data
-    getConversations(): Conversation[] {
+    getConversations(userId: string): Conversation[] {
         const conversationList = Array.from(this.conversationMap.values())
         return conversationList
     }
@@ -85,7 +85,8 @@ export class SqliteStorage implements Storage {
         this.db.exec(
             `CREATE TABLE IF NOT EXISTS conversations (
                 id TEXT PRIMARY KEY,
-                title TEXT NOT NULL
+                title TEXT NOT NULL, 
+                userId TEXT NOT NULL
             )`
         )
         this.db.exec(
@@ -98,13 +99,13 @@ export class SqliteStorage implements Storage {
         )
     }
 
-    createConversation(): Conversation {
+    createConversation(userId: string): Conversation {
         const id: ConversationId = uuid()
         const messages: Message[] = []
 
         // perform conversation table row add
-        const insertConversation = this.db.prepare('INSERT INTO conversations (id, title) VALUES (?, ?)')
-        insertConversation.run(id, "PLACEHOLDER_TITLE")
+        const insertConversation = this.db.prepare('INSERT INTO conversations (id, title, userId) VALUES (?, ?, ?)')
+        insertConversation.run(id, "PLACEHOLDER_TITLE", userId)
 
         const conversation: Conversation = { id, messages }
         return conversation
@@ -127,11 +128,21 @@ export class SqliteStorage implements Storage {
         return { id: id, messages: messages }
     }
 
-    getConversations(): Conversation[] {
+    getConversations(userId: string): Conversation[] {
         const conversations: Conversation[] = []
 
         // collect all conversations and messages
-        const conversationRows: ConversationRow[] = this.db.prepare(`SELECT * FROM conversations`).all() as ConversationRow[]
+        let conversationRows: ConversationRow[]
+        if (userId) {
+            conversationRows = this.db.prepare(
+                `SELECT * FROM conversations WHERE userId = ?`
+            ).all(userId) as ConversationRow[]
+        } else {
+            conversationRows = this.db.prepare(
+                `SELECT * FROM conversations`
+            ).all() as ConversationRow[]
+        }
+
         const messageRows: MessageRow[] = this.db.prepare(`SELECT * FROM messages`).all() as MessageRow[]
 
         // construct each conversation iteratively

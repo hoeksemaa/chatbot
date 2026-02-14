@@ -9,7 +9,7 @@ describe('InMemoryStorage', () => {
     })
 
     it('creates a new conversation with unique ID and empty messages', () => {
-        const conversation = storage.createConversation()
+        const conversation = storage.createConversation("test-user-123")
 
         expect(conversation.id).toBeDefined()
         expect(typeof conversation.id).toBe('string')
@@ -17,14 +17,14 @@ describe('InMemoryStorage', () => {
     })
 
     it('creates conversations with unique IDs', () => {
-        const conv1 = storage.createConversation()
-        const conv2 = storage.createConversation()
+        const conv1 = storage.createConversation("test-user-123")
+        const conv2 = storage.createConversation("test-user-123")
 
         expect(conv1.id).not.toBe(conv2.id)
     })
 
     it('adds a new message to a conversation', () => {
-        const conversation = storage.createConversation()
+        const conversation = storage.createConversation("test-user-123")
         expect(conversation.id).toBeDefined()
         expect(typeof conversation.id).toBe('string')
         expect(conversation.messages).toEqual([])
@@ -35,8 +35,8 @@ describe('InMemoryStorage', () => {
     })
 
     it('retrieves all conversations', () => {
-        const conv1 = storage.createConversation()
-        const conv2 = storage.createConversation()
+        const conv1 = storage.createConversation("test-user-123")
+        const conv2 = storage.createConversation("test-user-123")
 
         const conversations = storage.getConversations()
 
@@ -46,7 +46,7 @@ describe('InMemoryStorage', () => {
     })
 
     it('adds a message to a conversation', () => {
-        const conversation = storage.createConversation()
+        const conversation = storage.createConversation("test-user-123")
         const message: Message = { role: 'user', content: 'Hello!' }
 
         const success = storage.addMessageToConversation(conversation.id, message)
@@ -66,7 +66,7 @@ describe('SqliteStorage', () => {
     })
 
     it('creates a new conversation with unique ID and empty messages', () => {
-        const conversation = storage.createConversation()
+        const conversation = storage.createConversation("test-user-123")
 
         expect(conversation.id).toBeDefined()
         expect(typeof conversation.id).toBe('string')
@@ -74,14 +74,14 @@ describe('SqliteStorage', () => {
     })
 
     it('creates conversations with unique IDs', () => {
-        const conv1 = storage.createConversation()
-        const conv2 = storage.createConversation()
+        const conv1 = storage.createConversation("test-user-123")
+        const conv2 = storage.createConversation("test-user-123")
 
         expect(conv1.id).not.toBe(conv2.id)
     })
 
     it('adds a message to a conversation', () => {
-        const conversation = storage.createConversation()
+        const conversation = storage.createConversation("test-user-123")
         expect(conversation.id).toBeDefined()
         expect(typeof conversation.id).toBe('string')
         expect(conversation.messages).toEqual([])
@@ -93,7 +93,7 @@ describe('SqliteStorage', () => {
 
     it('adds 3 messages to a conversation and retrieves the conversation', () => {
         // create conversation
-        const conversation1 = storage.createConversation()
+        const conversation1 = storage.createConversation("test-user-123")
         expect(conversation1.messages).toEqual([])
 
         // add 3 messages
@@ -118,8 +118,8 @@ describe('SqliteStorage', () => {
     })
 
     it('retrieves all conversations', () => {
-        const conv1 = storage.createConversation()
-        const conv2 = storage.createConversation()
+        const conv1 = storage.createConversation("test-user-123")
+        const conv2 = storage.createConversation("test-user-123")
 
         const conversations = storage.getConversations()
 
