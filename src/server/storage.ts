@@ -164,7 +164,7 @@ export class SqliteStorage implements Storage {
                 role: messageRow.role,
                 content: messageRow.content
             }))
-            const conversation = { id: conversationId, messages: messages }
+            const conversation = { id: conversationId, messages, gameId: conversationRow.gameId ?? undefined, status: conversationRow.status }
             conversations.push(conversation)
         }
 

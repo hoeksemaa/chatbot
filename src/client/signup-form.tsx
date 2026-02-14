@@ -32,10 +32,10 @@ export function SignupForm({ onSwitchForm, ...props }: React.ComponentProps<type
     }
 
     return (
-        <Card {...props}>
+        <Card className="bg-amber-50/60 backdrop-blur-md border-amber-200/60 shadow-md w-full max-w-md" {...props}>
             <CardHeader>
-                <CardTitle>Create an account</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-stone-800">Create an account</CardTitle>
+                <CardDescription className="text-stone-500">
                     Enter your information below to create your account
                 </CardDescription>
             </CardHeader>
@@ -85,7 +85,7 @@ export function SignupForm({ onSwitchForm, ...props }: React.ComponentProps<type
                             <Field>
                                 <Button type="submit">Create Account</Button>
                                 <FieldDescription className="px-6 text-center">
-                                    Already have an account? <a href="#" onClick={(e) => { e.preventDefault(); onSwitchForm() }}>Sign in</a>
+                                    Already have an account? <a href="#" className="text-green-600 hover:text-green-500" onClick={(e) => { e.preventDefault(); onSwitchForm() }}>Sign in</a>
                                 </FieldDescription>
                             </Field>
                         </FieldGroup>
