@@ -6,6 +6,16 @@ export async function postCreateConversation() {
     return data
 }
 
+export async function postCreateGame(gameId: string): Promise<Conversation> {
+    const response = await fetch("/create-game", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ gameId })
+    })
+    const data: Conversation = await response.json()
+    return data
+}
+
 export async function postMessage(message: Message, id: ConversationId) {
     const response = await fetch(`/message/${id}`, {
         method: "POST",

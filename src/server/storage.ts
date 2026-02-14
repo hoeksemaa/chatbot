@@ -19,19 +19,24 @@ export interface MessageRow {
 export interface Conversation {
     id: ConversationId
     messages: Message[]
+    gameId?: string
+    status?: string
 }
 
 export interface ConversationRow {
     id: ConversationId,
     title: string,
-    userId: string
+    userId: string,
+    gameId: string | null,
+    status: string
 }
 
 export interface Storage {
-    createConversation(userId: string): Conversation
+    createConversation(userId: string, gameId?: string): Conversation
     getConversation(id: ConversationId): Conversation
     getConversations(userId: string): Conversation[]
     addMessageToConversation(id: ConversationId, message: Message): boolean
+    setConversationStatus(id: ConversationId, status: string): void
 }
 
 export class InMemoryStorage implements Storage {
@@ -42,7 +47,7 @@ export class InMemoryStorage implements Storage {
     }
 
     // saves new conversation and returns it
-    createConversation(userId: string): Conversation {
+    createConversation(userId: string, gameId?: string): Conversation {
         const id: ConversationId = uuid()
         const messages: Message[] = []
         const conversation = { id, messages }
@@ -75,6 +80,11 @@ export class InMemoryStorage implements Storage {
         this.conversationMap.set(id, conversation)
         return true
     }
+
+    setConversationStatus(id: ConversationId, status: string): void {
+        const conversation = this.conversationMap.get(id)
+        if (conversation) conversation.status = status
+    }
 }
 
 export class SqliteStorage implements Storage {
@@ -85,8 +95,10 @@ export class SqliteStorage implements Storage {
         this.db.exec(
             `CREATE TABLE IF NOT EXISTS conversations (
                 id TEXT PRIMARY KEY,
-                title TEXT NOT NULL, 
-                userId TEXT NOT NULL
+                title TEXT NOT NULL,
+                userId TEXT NOT NULL,
+                gameId TEXT,
+                status TEXT NOT NULL DEFAULT 'active'
             )`
         )
         this.db.exec(
@@ -99,33 +111,32 @@ export class SqliteStorage implements Storage {
         )
     }
 
-    createConversation(userId: string): Conversation {
+    createConversation(userId: string, gameId?: string): Conversation {
         const id: ConversationId = uuid()
         const messages: Message[] = []
 
-        // perform conversation table row add
-        const insertConversation = this.db.prepare('INSERT INTO conversations (id, title, userId) VALUES (?, ?, ?)')
-        insertConversation.run(id, "PLACEHOLDER_TITLE", userId)
+        const insertConversation = this.db.prepare('INSERT INTO conversations (id, title, userId, gameId, status) VALUES (?, ?, ?, ?, ?)')
+        insertConversation.run(id, "PLACEHOLDER_TITLE", userId, gameId ?? null, "active")
 
-        const conversation: Conversation = { id, messages }
+        const conversation: Conversation = { id, messages, gameId, status: "active" }
         return conversation
     }
 
     getConversation(id: ConversationId): Conversation {
-        // search for conversation in database
-        const conversationRows: ConversationRow = this.db.prepare(`SELECT * FROM conversations WHERE id = ?`).get(id) as ConversationRow
-        if (!conversationRows) { throw new Error(`no conversation in conversations with id=${id} found`) }
+        const row = this.db.prepare(`SELECT * FROM conversations WHERE id = ?`).get(id) as ConversationRow
+        if (!row) { throw new Error(`no conversation in conversations with id=${id} found`) }
 
         const messageRows: MessageRow[] = this.db.prepare(`SELECT * FROM messages WHERE conversationId = ?`).all(id) as MessageRow[]
-        //console.log("selectedMessages: ", messageRows)
-        if (!messageRows) { throw new Error(`no elements in messages with conversationId=${id} found`) }
 
         const messages: Message[] = messageRows.map((messageRow) => ({
             role: messageRow.role,
             content: messageRow.content
         }))
-        //console.log("messages: ", messages)
-        return { id: id, messages: messages }
+        return { id: id, messages, gameId: row.gameId ?? undefined, status: row.status }
+    }
+
+    setConversationStatus(id: ConversationId, status: string): void {
+        this.db.prepare('UPDATE conversations SET status = ? WHERE id = ?').run(status, id)
     }
 
     getConversations(userId: string): Conversation[] {

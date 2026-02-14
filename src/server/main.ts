@@ -5,6 +5,7 @@ import ViteExpress from "vite-express";
 import Anthropic from "@anthropic-ai/sdk";
 import type { Role, ConversationId, Message, Conversation } from "./storage.ts"
 import { InMemoryStorage, SqliteStorage } from "./storage"
+import { getGameById, buildSystemPrompt } from "./games"
 import { toNodeHandler } from 'better-auth/node'
 import { auth } from 'auth'
 
@@ -51,33 +52,66 @@ app.post("/create", requireAuth, (req, res) => {
   res.json(conversation)
 })
 
+app.post("/create-game", requireAuth, (req, res) => {
+  const { gameId } = req.body
+  const game = getGameById(gameId)
+  if (!game) {
+    return res.status(400).json({ error: "unknown gameId" })
+  }
+
+  const conversation = conversations.createConversation(req.userId!, gameId)
+
+  // save opening narration as first assistant message
+  const openingMessage: Message = { role: "assistant", content: game.openingNarration }
+  conversations.addMessageToConversation(conversation.id, openingMessage)
+  conversation.messages.push(openingMessage)
+
+  res.json(conversation)
+})
+
 app.post("/message/:id", requireAuth, async (req, res) => {
-  // extract ID 
   const id: ConversationId = req.params.id as string
   const message: Message = req.body
 
-  // save user message
   const success = conversations.addMessageToConversation(id, message)
   if (!success) {
     throw new Error("adding Message to Conversation failed")
   }
 
-  // get claude response
+  const conversation = conversations.getConversation(id)
+
+  // build system prompt if this is a game conversation
+  let system: string | undefined
+  if (conversation.gameId) {
+    const game = getGameById(conversation.gameId)
+    if (game) system = buildSystemPrompt(game)
+  }
+
   const response = await client.messages.create({
     model: "claude-haiku-4-5-20251001",
     max_tokens: 1024,
-    messages: conversations.getConversation(id).messages
+    ...(system ? { system } : {}),
+    messages: conversation.messages
   })
 
-  // save claude response
   if (!response.content[0] || response.content[0].type != 'text') {
     throw new Error('expected text response from Claude')
   }
-  const claudeResponse: Message = { "role": "assistant", "content": response.content[0].text }
+
+  let text = response.content[0].text
+
+  // check for victory
+  let victory = false
+  if (text.includes('[VICTORY]')) {
+    victory = true
+    text = text.replace('[VICTORY]', '').trimEnd()
+    conversations.setConversationStatus(id, 'won')
+  }
+
+  const claudeResponse: Message = { role: "assistant", content: text }
   conversations.addMessageToConversation(id, claudeResponse)
 
-  // send claude response
-  res.json(claudeResponse)
+  res.json({ ...claudeResponse, victory })
 })
 
 ViteExpress.listen(app, 3000, () =>
