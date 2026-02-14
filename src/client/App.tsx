@@ -21,7 +21,7 @@ function App() {
   const { data: session, isPending } = authClient.useSession()
   const [input, setInput] = useState("")
   const [sheetOpen, setSheetOpen] = useState(false)
-  const { chat, conversations, sendMessage, fetchConversation, fetchConversations, clearChat } = useChat()
+  const { chat, conversations, victory, sendMessage, fetchConversation, fetchConversations, clearChat } = useChat()
   let { conversationId } = useParams()
   let navigate = useNavigate()
 
@@ -85,13 +85,24 @@ function App() {
             </Card>
           ))}
         </ScrollArea>
-        <Textarea
-          value={input}
-          onChange={handleInputChange}
-          onKeyDown={handleKeyDown}
-        />
-        <Button onClick={handleClick}>Send</Button>
-        <Button onClick={handleNewChat}>New Chat</Button>
+        {victory && (
+          <Card className="bg-green-900 text-white text-center p-6 mb-4">
+            <h2 className="text-2xl font-bold">Victory!</h2>
+            <p className="text-muted-foreground mt-1">You completed the adventure.</p>
+            <Button className="mt-4" onClick={handleNewChat}>Play Again</Button>
+          </Card>
+        )}
+        {!victory && (
+          <>
+            <Textarea
+              value={input}
+              onChange={handleInputChange}
+              onKeyDown={handleKeyDown}
+            />
+            <Button onClick={handleClick}>Send</Button>
+          </>
+        )}
+        <Button onClick={handleNewChat}>New Adventure</Button>
         <Button variant="outline" onClick={() => authClient.signOut().then(() => { window.location.href = "/" })}>Sign Out</Button>
         <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
           <SheetTrigger asChild>

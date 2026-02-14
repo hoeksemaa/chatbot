@@ -7,6 +7,7 @@ import { getConversation, getConversations, postCreateConversation, postMessage 
 export function useChat() {
     const [chat, setChat] = useState<Conversation | null>(null)
     const [conversations, setConversations] = useState<Conversation[]>([])
+    const [victory, setVictory] = useState(false)
 
     const appendMessage = (message: Message) => {
         setChat(prev => prev ? { ...prev, messages: [...prev.messages, message] } : prev)
@@ -37,6 +38,10 @@ export function useChat() {
         const claudeResponse = await postMessage(userMessage, activeChat.id)
         appendMessage(claudeResponse)
 
+        if ((claudeResponse as any).victory) {
+            setVictory(true)
+        }
+
         return activeChat.id
     }
 
@@ -55,11 +60,12 @@ export function useChat() {
     }
 
     return {
-        chat: chat,
-        conversations: conversations,
-        sendMessage: sendMessage,
-        fetchConversation: fetchConversation,
-        fetchConversations: fetchConversations,
-        clearChat: clearChat
+        chat,
+        conversations,
+        victory,
+        sendMessage,
+        fetchConversation,
+        fetchConversations,
+        clearChat
     }
 }
